@@ -99,6 +99,8 @@ function createtaskUI(task) {
 }
 
 const taskForm = document.querySelector(".task-form");
+const overlay = document.querySelector(".overlay");
+
 taskForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const data = new FormData(taskForm);
@@ -108,7 +110,14 @@ taskForm.addEventListener("submit", (e) => {
 
     // add to list, and hide overlay.
     createtaskUI(task);
-    const overlay = document.querySelector(".overlay");
     overlay.classList.toggle("hidden");
     taskForm.reset();
 });
+
+overlay.addEventListener("click", () => {
+    overlay.classList.toggle("hidden");
+});
+
+document
+    .querySelector(".modal")
+    .addEventListener("click", (e) => e.stopPropagation());
