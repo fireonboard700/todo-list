@@ -5,5 +5,47 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Todo List</title>
     </head>
-    <body></body>
+    <body>
+        <header>
+            <h1>Tasks</h1>
+        </header>
+        <div class="content">
+            <div class="sidebar">
+                <button id="create-btn">+ Create</button>
+            </div>
+            <div class="lists">
+                <div class="defaultlist list"></div>
+            </div>
+        </div>
+        <div class="overlay">
+            <div class="modal">
+                <form target="#" method="post" class="task-form">
+                    <div class="form-input">
+                        <label for="title">title</label>
+                        <input type="text" id="title" name="title" />
+                    </div>
+                    <div class="form-input">
+                        <label for="priority">priority</label>
+                        <input type="text" id="priority" name="priority" />
+                    </div>
+                    <div class="form-input">
+                        <label for="dueDate">dueDate</label>
+                        <input type="date" id="dueDate" name="dueDate" />
+                    </div>
+                    <div class="form-input">
+                        <label for="description">description</label>
+                        <textarea id="description" name="description">
+                        </textarea>
+                    </div>
+                    <div class="form-input">
+                        <label for="list">list</label>
+                        <input type="text" name="list" />
+                    </div>
+                    <div class="form-input form-submit">
+                        <button type="submit">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
 </html>

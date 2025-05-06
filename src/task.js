@@ -1,6 +1,7 @@
 class Task {
     // TODO: think about if we want getters or setters. (we probably do)
-    constructor(title, priority, dueDate, description, list) {
+    constructor({ title, priority, dueDate, description, list }) {
+        this.id = crypto.randomUUID();
         this.title = title;
         this.priority = priority;
         this.dueDate = dueDate;
@@ -8,10 +9,17 @@ class Task {
         this.isComplete = false;
         this.list = list;
     }
+
+    info() {
+        // deserialize task.
+        return `${this.title}, ${this.priority}, ${this.dueDate}, ${this.description}, ${this.list}`;
+    }
 }
 
 class List {
-    constructor() {
+    constructor(name) {
+        this.id = crypto.randomUUID();
+        this.name = name;
         this.taskList = [];
     }
 
@@ -23,7 +31,7 @@ class List {
 const TaskManager = (function () {
     const createTask = (title, priority, dueDate, description, list) => {
         const task = new Task(title, priority, dueDate, description, list);
-        list.addTask(task);
+        // list.addTask(task);
         return task;
     };
 
@@ -31,7 +39,11 @@ const TaskManager = (function () {
         task[`${property}`] = value;
     };
 
+    const createList = () => {
+        return new List();
+    };
+
     return { createTask, setTaskProperty };
 })();
 
-export { TaskManager, List };
+export { Task, List, TaskManager };
