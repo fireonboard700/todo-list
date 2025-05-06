@@ -14,15 +14,18 @@ header {
 }
 
 .overlay {
+    display: flex;
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.hidden {
+    display: none;
 }
 
 .modal {
@@ -48,7 +51,11 @@ form {
     justify-content: flex-end;
 }
 
-input {
+#title,
+#priority,
+#dueDate,
+#description,
+#list {
     width: 200px;
     font: inherit;
 }
@@ -65,6 +72,7 @@ textarea {
 button {
     padding: 8px;
     font-size: inherit;
+    color: rgb(0, 0, 238);
 }
 
 .content {
@@ -72,14 +80,34 @@ button {
     min-height: 100vh;
 }
 
+.lists {
+    flex: 1;
+}
+
 .list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     min-height: 400px;
     width: 400px;
 }
 
 .task {
-    padding: 8px;
+    background-color: rgb(232, 229, 229);
+    border: 0.5px solid rebeccapurple;
+}
+
+.task-head {
+    display: flex;
+    justify-content: space-between;
+}
+
+.task-head-left {
+    display: flex;
+}
+
+.task-completed {
+    padding: 12px;
+    margin-right: 8px;
+}
+
+.completed {
+    background-color: blue;
 }

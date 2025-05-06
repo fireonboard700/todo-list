@@ -6,7 +6,7 @@ const defaultList = document.querySelector(".defaultlist");
 
 createBtn.addEventListener("click", () => {
     const overlay = document.querySelector(".overlay");
-    overlay.style.display = "flex";
+    overlay.classList.toggle("hidden");
 });
 
 // ============= //
@@ -14,6 +14,59 @@ createBtn.addEventListener("click", () => {
 //   Task Form   //
 // ============= //
 // ============= //
+
+function createtaskUI(task) {
+    const { title, priority, dueDate, description, list } = task;
+    const container = document.createElement("div");
+    container.classList.add("task");
+
+    // head of container
+    // UGLY HORRIBLE CANNOT MAINTAIN WHAT WERE YOU THINKING
+    // -screams from future me
+    const taskHead = document.createElement("div");
+    taskHead.classList.add("task-head");
+
+    const taskHeadLeft = document.createElement("div");
+    taskHeadLeft.classList.add("task-head-left");
+
+    const taskCompleted = document.createElement("button");
+    taskCompleted.classList.add("task-completed");
+
+    taskCompleted.addEventListener("click", (e) => {
+        e.stopPropagation();
+        taskCompleted.classList.toggle("completed");
+        task.isComplete = !task.isComplete;
+        console.log(task);
+    });
+
+    const taskTitle = document.createElement("div");
+    const taskDueDate = document.createElement("div");
+    taskTitle.textContent = title;
+    taskDueDate.textContent = dueDate;
+
+    taskHeadLeft.append(taskCompleted);
+    taskHeadLeft.append(taskTitle);
+
+    taskHead.append(taskHeadLeft);
+    taskHead.append(taskDueDate);
+
+    // task description, click to expand
+
+    const taskDescription = document.createElement("div");
+    taskDescription.classList.add("task-description", "hidden");
+    taskDescription.textContent = description;
+
+    container.append(taskHead);
+    container.append(taskDescription);
+
+    // add event listeners
+
+    container.addEventListener("click", () => {
+        taskDescription.classList.toggle("hidden");
+    });
+
+    defaultList.append(container);
+}
 
 const taskForm = document.querySelector(".task-form");
 taskForm.addEventListener("submit", (e) => {
@@ -24,12 +77,8 @@ taskForm.addEventListener("submit", (e) => {
     const task = TaskManager.createTask(taskData);
 
     // add to list, and hide overlay.
-    const div = document.createElement("div");
-    div.classList.add("task");
-    div.textContent = task.info();
-    defaultList.append(div);
-
+    createtaskUI(task);
     const overlay = document.querySelector(".overlay");
-    overlay.style.display = "none";
+    overlay.classList.toggle("hidden");
     taskForm.reset();
 });
