@@ -45,6 +45,9 @@ function createtaskUI(task) {
     const container = document.createElement("div");
     container.classList.add("task");
 
+    const hue = 50 - (priority - 1) * 5;
+    container.style.setProperty("--hue", hue);
+
     // head of container
     // UGLY HORRIBLE CANNOT MAINTAIN WHAT WERE YOU THINKING
     // -screams from future me

@@ -101,7 +101,8 @@ label {
 }
 
 .task {
-    background-color: rgb(232, 229, 229);
+    --hue: 50; /* default to low urgency (yellow) */
+    background-color: hsl(var(--hue), 90%, 85%);
     border: 0.5px solid rebeccapurple;
 }
 
@@ -120,5 +121,5 @@ label {
 }
 
 .completed {
-    background-color: blue;
+    background-color: green;
 }
