@@ -29,6 +29,8 @@ class List {
 }
 
 const TaskManager = (function () {
+    const allLists = [];
+
     const createTask = (title, priority, dueDate, description, list) => {
         const task = new Task(title, priority, dueDate, description, list);
         // list.addTask(task);
@@ -39,11 +41,13 @@ const TaskManager = (function () {
         task[`${property}`] = value;
     };
 
-    const createList = () => {
-        return new List();
+    const createList = (listName) => {
+        const list = new List(listName);
+        allLists.push(list);
+        return list;
     };
 
-    return { createTask, setTaskProperty };
+    return { createTask, setTaskProperty, createList };
 })();
 
 export { Task, List, TaskManager };

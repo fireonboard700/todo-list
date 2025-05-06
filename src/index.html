@@ -12,9 +12,15 @@
         <div class="content">
             <div class="sidebar">
                 <button id="create-btn">+ Create</button>
+                <button id="create-list-btn">+ Add new list</button>
+                <form target="#" method="post" class="list-form hidden">
+                    <div class="form-input">
+                        <input type="text" id="listName" name="listName" />
+                    </div>
+                </form>
             </div>
             <div class="lists">
-                <div class="defaultlist list"></div>
+                <div class="default list">default</div>
             </div>
         </div>
         <div class="overlay hidden">

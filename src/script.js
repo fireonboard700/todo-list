@@ -2,11 +2,36 @@ import "./styles.css";
 import { Task, List, TaskManager } from "./task";
 
 const createBtn = document.querySelector("#create-btn");
-const defaultList = document.querySelector(".defaultlist");
+const lists = document.querySelector(".lists");
 
 createBtn.addEventListener("click", () => {
     const overlay = document.querySelector(".overlay");
     overlay.classList.toggle("hidden");
+});
+
+const createListBtn = document.querySelector("#create-list-btn");
+const listForm = document.querySelector(".list-form");
+
+createListBtn.addEventListener("click", () => {
+    listForm.classList.toggle("hidden");
+});
+
+listForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const data = new FormData(listForm);
+    console.log(data);
+    const listName = data.get("listName");
+    TaskManager.createList(listName);
+
+    const div = document.createElement("div");
+    div.classList.add("list", `${listName}`);
+    div.textContent = `${listName}`;
+
+    lists.appendChild(div);
+
+    listForm.reset();
+    listForm.classList.toggle("hidden");
 });
 
 // ============= //
@@ -65,7 +90,9 @@ function createtaskUI(task) {
         taskDescription.classList.toggle("hidden");
     });
 
-    defaultList.append(container);
+    const listDiv = document.querySelector(`.${list}`);
+    console.log(listDiv);
+    listDiv.appendChild(container);
 }
 
 const taskForm = document.querySelector(".task-form");

@@ -11,9 +11,11 @@ body {
 
 header {
     padding: 8px;
+    background-color: rgb(232, 229, 229);
 }
 
 .overlay {
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     position: fixed;
     top: 0;
@@ -29,14 +31,15 @@ header {
 }
 
 .modal {
+    opacity: 1;
     padding: 32px;
-    background-color: #f9f9f9;
+    background-color: rgb(232, 229, 229);
     border: 2px solid rebeccapurple;
     border-radius: 8px;
 }
 
-form {
-    min-width: 24vw;
+.list-form {
+    width: 200px;
 }
 
 .form-input {
@@ -51,25 +54,28 @@ form {
     justify-content: flex-end;
 }
 
-#title,
-#priority,
-#dueDate,
-#description,
-#list {
+input,
+textarea {
     width: 200px;
     font: inherit;
 }
 
-textarea {
-    width: 200px;
+label {
+    padding-right: 8px;
 }
 
 .sidebar {
-    padding: 8px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
     min-width: 200px;
+    padding-right: 24px;
 }
 
-button {
+#create-btn,
+#create-list-btn,
+#submit {
+    width: 200px;
     padding: 8px;
     font-size: inherit;
     color: rgb(0, 0, 238);
@@ -81,12 +87,17 @@ button {
 }
 
 .lists {
+    flex-wrap: wrap;
     flex: 1;
+    display: flex;
 }
 
 .list {
-    min-height: 400px;
+    margin: 5px;
+    height: 400px;
     width: 400px;
+    border: 2px solid rebeccapurple;
+    background-color: rgb(232, 229, 229);
 }
 
 .task {
