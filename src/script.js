@@ -219,10 +219,13 @@ function updateModalUI(task) {
 
 document.querySelector("#create-btn").addEventListener("click", () => {
     const overlay = document.querySelector(".overlay");
+    document.querySelector(".form-submit button").textContent = "Create";
     overlay.classList.toggle("hidden");
 });
 
 overlay.addEventListener("click", () => {
+    if (taskToEdit) taskForm.reset();
+    taskToEdit = null;
     overlay.classList.toggle("hidden");
 });
 
