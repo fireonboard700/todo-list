@@ -9,6 +9,21 @@ import { Task, List, TaskManager } from "./task";
 
 const lists = document.querySelector(".lists");
 const listForm = document.querySelector(".list-form");
+const overlay = document.querySelector(".overlay");
+
+const cache = localStorage.getItem("cache");
+if (cache) {
+    TaskManager.deserialize(cache);
+    for (let list of Object.values(TaskManager.allLists)) {
+        createListUI(list.name, list.id);
+        for (let task of Object.values(list.taskList)) {
+            createtaskUI(task);
+        }
+    }
+} else {
+    const id = TaskManager.createList("my tasks");
+    createListUI("my tasks", id);
+}
 
 function createListUI(listName, listId) {
     const div = document.createElement("div");
@@ -36,6 +51,7 @@ listForm.addEventListener("submit", (e) => {
     console.log(TaskManager);
 
     createListUI(listName, listId);
+    localStorage.setItem("cache", TaskManager.serialize());
 });
 
 // ============= //
@@ -43,8 +59,6 @@ listForm.addEventListener("submit", (e) => {
 //   Task Form   //
 // ============= //
 // ============= //
-
-const overlay = document.querySelector(".overlay");
 
 let taskToEdit = null;
 
@@ -151,6 +165,7 @@ function createtaskUI(task) {
         //delete
         TaskManager.deleteTask(task);
         container.remove();
+        localStorage.setItem("cache", TaskManager.serialize());
     });
 
     buttons.appendChild(editButton);
@@ -168,9 +183,6 @@ function createtaskUI(task) {
 
     const listDiv = document.querySelector(`#${listId}`);
     listDiv.appendChild(container);
-
-    //toggle overlay to hidden
-    overlay.classList.toggle("hidden");
 }
 
 const taskForm = document.querySelector(".task-form");
@@ -184,6 +196,7 @@ taskForm.addEventListener("submit", (e) => {
     if (!taskToEdit) {
         const task = TaskManager.createTask(taskData);
         createtaskUI(task);
+        overlay.classList.toggle("hidden");
     } else {
         for (let key in taskData) {
             taskToEdit[key] = taskData[key];
@@ -193,6 +206,7 @@ taskForm.addEventListener("submit", (e) => {
         taskToEdit = null;
     }
 
+    localStorage.setItem("cache", TaskManager.serialize());
     taskForm.reset();
 });
 
@@ -218,7 +232,6 @@ function updateModalUI(task) {
 }
 
 document.querySelector("#create-btn").addEventListener("click", () => {
-    const overlay = document.querySelector(".overlay");
     document.querySelector(".form-submit button").textContent = "Create";
     overlay.classList.toggle("hidden");
 });

@@ -9,11 +9,6 @@ class Task {
         this.isComplete = false;
         this.listId = listId;
     }
-
-    info() {
-        // deserialize task.
-        return `${this.title}, ${this.priority}, ${this.dueDate}, ${this.description}, ${this.listId}`;
-    }
 }
 
 class List {
@@ -21,10 +16,6 @@ class List {
         this.id = `uuid-${crypto.randomUUID()}`;
         this.name = name;
         this.taskList = {};
-    }
-
-    addTask(task) {
-        this.taskList[task["id"]] = task;
     }
 }
 
@@ -40,7 +31,8 @@ const TaskManager = (function () {
             description,
             listId,
         });
-        allLists[listId].addTask(task);
+        console.log(allLists[listId]);
+        allLists[listId].taskList[task["id"]] = task;
         return task;
     };
 
@@ -49,7 +41,8 @@ const TaskManager = (function () {
     };
 
     const deleteTask = (task) => {
-        const list = task.list;
+        const list = allLists[task.listId];
+        delete list.taskList[task.id];
     };
 
     const createList = (listName) => {
@@ -60,6 +53,14 @@ const TaskManager = (function () {
 
     const deleteList = (list) => {};
 
+    const serialize = () => {
+        return JSON.stringify(allLists);
+    };
+
+    const deserialize = (cache) => {
+        Object.assign(allLists, JSON.parse(cache));
+    };
+
     return {
         allLists,
         createTask,
@@ -67,6 +68,8 @@ const TaskManager = (function () {
         setTaskProperty,
         createList,
         deleteList,
+        serialize,
+        deserialize,
     };
 })();
 
