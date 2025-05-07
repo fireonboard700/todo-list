@@ -20,9 +20,6 @@ if (cache) {
             createtaskUI(task);
         }
     }
-} else {
-    const id = TaskManager.createList("my tasks");
-    createListUI("my tasks", id);
 }
 
 function createListUI(listName, listId) {
@@ -89,9 +86,9 @@ function updatetaskUI(container, taskData) {
     const hue = 50 - (priority - 1) * 5;
     container.style.setProperty("--hue", hue);
 
-    const taskTitle = document.querySelector(".task-title");
-    const taskDueDate = document.querySelector(".task-duedate");
-    const taskDescription = document.querySelector(".task-description");
+    const taskTitle = container.querySelector(".task-title");
+    const taskDueDate = container.querySelector(".task-duedate");
+    const taskDescription = container.querySelector(".task-description");
 
     taskTitle.textContent = title;
     taskDueDate.textContent = dueDate;
@@ -221,6 +218,9 @@ taskForm.addEventListener("submit", (e) => {
         for (let key in taskData) {
             taskToEdit[key] = taskData[key];
         }
+        console.log(taskToEdit);
+        TaskManager.deleteTask(taskToEdit["id"]);
+        TaskManager.createTask(taskToEdit);
         const containerToEdit = document.querySelector(`#${taskToEdit["id"]}`);
         updatetaskUI(containerToEdit, taskData);
         taskToEdit = null;
