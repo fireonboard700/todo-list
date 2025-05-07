@@ -55,7 +55,8 @@ header {
 }
 
 input,
-textarea {
+textarea,
+select {
     width: 200px;
     padding: 8px;
     font: inherit;
@@ -66,11 +67,12 @@ label {
 }
 
 .sidebar {
+    background-color: rgb(232, 229, 229);
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
     min-width: 200px;
-    padding-right: 24px;
+    margin-right: 24px;
 }
 
 #create-btn,
@@ -83,6 +85,7 @@ label {
 }
 
 .content {
+    background-color: rgb(217, 217, 248);
     display: flex;
     min-height: 100vh;
 }

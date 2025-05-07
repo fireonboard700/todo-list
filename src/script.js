@@ -10,13 +10,21 @@ import { Task, List, TaskManager } from "./task";
 const lists = document.querySelector(".lists");
 const listForm = document.querySelector(".list-form");
 
-function createListElement(listName) {
+function createListUI(listName, listId) {
     const div = document.createElement("div");
-    div.classList.add("list", `${listName}`);
+    div.classList.add("list");
+    div.id = `uuid-${listId}`;
     div.textContent = `${listName}`;
 
     lists.appendChild(div);
     listForm.reset();
+
+    const select = document.querySelector("select");
+    const option = document.createElement("option");
+    option.value = `uuid-${listId}`;
+    option.textContent = listName;
+
+    select.appendChild(option);
 }
 
 listForm.addEventListener("submit", (e) => {
@@ -25,10 +33,10 @@ listForm.addEventListener("submit", (e) => {
     const data = new FormData(listForm);
     console.log(data);
     const listName = data.get("listName");
-    TaskManager.createList(listName);
+    const listId = TaskManager.createList(listName);
     console.log(TaskManager);
 
-    createListElement(listName);
+    createListUI(listName, listId);
 });
 
 // ============= //
@@ -90,7 +98,8 @@ function createtaskUI(task) {
         taskDescription.classList.toggle("hidden");
     });
 
-    const listDiv = document.querySelector(`.${list}`);
+    console.log(list);
+    const listDiv = document.querySelector(`#${list}`);
     console.log(listDiv);
     listDiv.appendChild(container);
 }
@@ -102,6 +111,7 @@ taskForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const data = new FormData(taskForm);
     const taskData = Object.fromEntries(data.entries());
+    console.log(taskData);
 
     const task = TaskManager.createTask(taskData);
 

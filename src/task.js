@@ -20,16 +20,16 @@ class List {
     constructor(name) {
         this.id = crypto.randomUUID();
         this.name = name;
-        this.taskList = [];
+        this.taskList = {};
     }
 
     addTask(task) {
-        this.taskList.push(task);
+        this.taskList[task["id"]] = task;
     }
 }
 
 const TaskManager = (function () {
-    const allLists = [];
+    const allLists = {};
 
     const createTask = (title, priority, dueDate, description, list) => {
         const task = new Task(title, priority, dueDate, description, list);
@@ -41,13 +41,26 @@ const TaskManager = (function () {
         task[`${property}`] = value;
     };
 
-    const createList = (listName) => {
-        const list = new List(listName);
-        allLists.push(list);
-        return list;
+    const deleteTask = (task) => {
+        const list = task.list;
     };
 
-    return { allLists, createTask, setTaskProperty, createList };
+    const createList = (listName) => {
+        const list = new List(listName);
+        allLists[list["id"]] = list;
+        return list["id"];
+    };
+
+    const deleteList = (list) => {};
+
+    return {
+        allLists,
+        createTask,
+        deleteTask,
+        setTaskProperty,
+        createList,
+        deleteList,
+    };
 })();
 
 export { Task, List, TaskManager };
