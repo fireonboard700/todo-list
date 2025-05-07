@@ -70,7 +70,6 @@ label {
     display: flex;
     flex-direction: column;
     min-width: 200px;
-    margin-right: 24px;
 }
 
 #create-btn,
@@ -89,6 +88,7 @@ label {
 }
 
 .lists {
+    padding: 32px;
     flex-wrap: wrap;
     flex: 1;
     display: flex;
@@ -113,12 +113,20 @@ label {
     justify-content: space-between;
 }
 
+.task-title {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
 .task-head-left {
     display: flex;
 }
 
 .task-completed {
-    padding: 12px;
+    flex-shrink: 0;
+    height: 28px;
+    width: 28px;
+    font: inherit;
     margin-right: 8px;
 }
 
@@ -130,10 +138,16 @@ label {
 }
 
 .task-description {
+    border-top: 0.5px solid rebeccapurple;
     flex: 1 1 auto;
     word-break: break-word;
     overflow-wrap: anywhere;
     flex-wrap: wrap;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .edit-button {

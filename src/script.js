@@ -71,7 +71,8 @@ function updatetaskUI(container, taskData) {
 }
 
 function createtaskUI(task) {
-    const { id, title, priority, dueDate, description, listId } = task;
+    const { id, title, priority, dueDate, description, isComplete, listId } =
+        task;
     const container = document.createElement("div");
     container.classList.add("task");
     container.id = id;
@@ -89,7 +90,12 @@ function createtaskUI(task) {
     taskHeadLeft.classList.add("task-head-left");
 
     const taskCompleted = document.createElement("button");
+    taskCompleted.textContent = "✓";
     taskCompleted.classList.add("task-completed");
+
+    if (isComplete) {
+        taskCompleted.classList.add("completed");
+    }
 
     const taskTitle = document.createElement("div");
     taskTitle.classList.add("task-title");
@@ -122,6 +128,9 @@ function createtaskUI(task) {
     taskDescription.classList.add("task-description");
     taskDescription.textContent = description;
 
+    const buttons = document.createElement("div");
+    buttons.classList.add("buttons");
+
     const editButton = document.createElement("button");
     editButton.classList.add("edit-button");
     editButton.textContent = "Edit";
@@ -133,8 +142,22 @@ function createtaskUI(task) {
         updateModalUI(taskToEdit);
     });
 
+    const deleteButton = document.createElement("button");
+    deleteButton.classList.add("edit-button");
+    deleteButton.textContent = "Delete";
+
+    deleteButton.addEventListener("click", (e) => {
+        e.stopPropagation();
+        //delete
+        TaskManager.deleteTask(task);
+        container.remove();
+    });
+
+    buttons.appendChild(editButton);
+    buttons.appendChild(deleteButton);
+
     taskBody.appendChild(taskDescription);
-    taskBody.appendChild(editButton);
+    taskBody.appendChild(buttons);
 
     container.append(taskHead);
     container.append(taskBody);
