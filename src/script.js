@@ -13,7 +13,7 @@ const listForm = document.querySelector(".list-form");
 function createListUI(listName, listId) {
     const div = document.createElement("div");
     div.classList.add("list");
-    div.id = `uuid-${listId}`;
+    div.id = `${listId}`;
     div.textContent = `${listName}`;
 
     lists.appendChild(div);
@@ -21,7 +21,7 @@ function createListUI(listName, listId) {
 
     const select = document.querySelector("select");
     const option = document.createElement("option");
-    option.value = `uuid-${listId}`;
+    option.value = `${listId}`;
     option.textContent = listName;
 
     select.appendChild(option);
@@ -31,7 +31,6 @@ listForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const data = new FormData(listForm);
-    console.log(data);
     const listName = data.get("listName");
     const listId = TaskManager.createList(listName);
     console.log(TaskManager);
@@ -45,10 +44,37 @@ listForm.addEventListener("submit", (e) => {
 // ============= //
 // ============= //
 
+const overlay = document.querySelector(".overlay");
+
+let taskToEdit = null;
+
+function updatetaskUI(container, taskData) {
+    //ugly, duplicated code, but I just want to be done.
+    const { title, priority, dueDate, description, listId } = taskData;
+
+    const hue = 50 - (priority - 1) * 5;
+    container.style.setProperty("--hue", hue);
+
+    const taskTitle = document.querySelector(".task-title");
+    const taskDueDate = document.querySelector(".task-duedate");
+    const taskDescription = document.querySelector(".task-description");
+
+    taskTitle.textContent = title;
+    taskDueDate.textContent = dueDate;
+    taskDescription.textContent = description;
+
+    const listDiv = document.querySelector(`#${listId}`);
+    listDiv.appendChild(container);
+
+    overlay.classList.toggle("hidden");
+    document.querySelector(".form-submit button").textContent = "Create";
+}
+
 function createtaskUI(task) {
-    const { title, priority, dueDate, description, list } = task;
+    const { id, title, priority, dueDate, description, listId } = task;
     const container = document.createElement("div");
     container.classList.add("task");
+    container.id = id;
 
     const hue = 50 - (priority - 1) * 5;
     container.style.setProperty("--hue", hue);
@@ -65,17 +91,21 @@ function createtaskUI(task) {
     const taskCompleted = document.createElement("button");
     taskCompleted.classList.add("task-completed");
 
+    const taskTitle = document.createElement("div");
+    taskTitle.classList.add("task-title");
+    const taskDueDate = document.createElement("div");
+    taskDueDate.classList.add("task-duedate");
+
+    taskTitle.textContent = title;
+    taskDueDate.textContent = dueDate;
+
     taskCompleted.addEventListener("click", (e) => {
         e.stopPropagation();
         taskCompleted.classList.toggle("completed");
+        container.classList.toggle("completed");
+        taskTitle.classList.toggle("strikethrough");
         task.isComplete = !task.isComplete;
-        console.log(task);
     });
-
-    const taskTitle = document.createElement("div");
-    const taskDueDate = document.createElement("div");
-    taskTitle.textContent = title;
-    taskDueDate.textContent = dueDate;
 
     taskHeadLeft.append(taskCompleted);
     taskHeadLeft.append(taskTitle);
@@ -85,27 +115,42 @@ function createtaskUI(task) {
 
     // task description, click to expand
 
+    const taskBody = document.createElement("div");
+    taskBody.classList.add("task-body", "hidden");
+
     const taskDescription = document.createElement("div");
-    taskDescription.classList.add("task-description", "hidden");
+    taskDescription.classList.add("task-description");
     taskDescription.textContent = description;
 
-    container.append(taskHead);
-    container.append(taskDescription);
+    const editButton = document.createElement("button");
+    editButton.classList.add("edit-button");
+    editButton.textContent = "Edit";
 
-    // add event listeners
-
-    container.addEventListener("click", () => {
-        taskDescription.classList.toggle("hidden");
+    editButton.addEventListener("click", (e) => {
+        e.stopPropagation();
+        //editing mode
+        taskToEdit = task;
+        updateModalUI(taskToEdit);
     });
 
-    console.log(list);
-    const listDiv = document.querySelector(`#${list}`);
-    console.log(listDiv);
+    taskBody.appendChild(taskDescription);
+    taskBody.appendChild(editButton);
+
+    container.append(taskHead);
+    container.append(taskBody);
+
+    container.addEventListener("click", () => {
+        taskBody.classList.toggle("hidden");
+    });
+
+    const listDiv = document.querySelector(`#${listId}`);
     listDiv.appendChild(container);
+
+    //toggle overlay to hidden
+    overlay.classList.toggle("hidden");
 }
 
 const taskForm = document.querySelector(".task-form");
-const overlay = document.querySelector(".overlay");
 
 taskForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -113,11 +158,18 @@ taskForm.addEventListener("submit", (e) => {
     const taskData = Object.fromEntries(data.entries());
     console.log(taskData);
 
-    const task = TaskManager.createTask(taskData);
+    if (!taskToEdit) {
+        const task = TaskManager.createTask(taskData);
+        createtaskUI(task);
+    } else {
+        for (let key in taskData) {
+            taskToEdit[key] = taskData[key];
+        }
+        const containerToEdit = document.querySelector(`#${taskToEdit["id"]}`);
+        updatetaskUI(containerToEdit, taskData);
+        taskToEdit = null;
+    }
 
-    // add to list, and hide overlay.
-    createtaskUI(task);
-    overlay.classList.toggle("hidden");
     taskForm.reset();
 });
 
@@ -126,6 +178,21 @@ taskForm.addEventListener("submit", (e) => {
 //   Modal Logic //
 // ============= //
 // ============= //
+
+function updateModalUI(task) {
+    document.querySelector(".form-submit button").textContent = "Edit";
+
+    overlay.classList.toggle("hidden");
+    const inputs = document.querySelectorAll(".form-input input");
+    for (let input of inputs) {
+        input.value = task[input.id];
+    }
+    const textarea = document.querySelector(".form-input textarea");
+    textarea.value = task["description"];
+
+    const select = document.querySelector(".form-input select");
+    select.value = task["listId"];
+}
 
 document.querySelector("#create-btn").addEventListener("click", () => {
     const overlay = document.querySelector(".overlay");

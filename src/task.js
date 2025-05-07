@@ -1,24 +1,24 @@
 class Task {
     // TODO: think about if we want getters or setters. (we probably do)
-    constructor({ title, priority, dueDate, description, list }) {
-        this.id = crypto.randomUUID();
+    constructor({ title, priority, dueDate, description, listId }) {
+        this.id = `uuid-${crypto.randomUUID()}`;
         this.title = title;
         this.priority = priority;
         this.dueDate = dueDate;
         this.description = description;
         this.isComplete = false;
-        this.list = list;
+        this.listId = listId;
     }
 
     info() {
         // deserialize task.
-        return `${this.title}, ${this.priority}, ${this.dueDate}, ${this.description}, ${this.list}`;
+        return `${this.title}, ${this.priority}, ${this.dueDate}, ${this.description}, ${this.listId}`;
     }
 }
 
 class List {
     constructor(name) {
-        this.id = crypto.randomUUID();
+        this.id = `uuid-${crypto.randomUUID()}`;
         this.name = name;
         this.taskList = {};
     }
@@ -29,11 +29,18 @@ class List {
 }
 
 const TaskManager = (function () {
+    // Congratulations, this is the worst code ever to be written.
     const allLists = {};
 
-    const createTask = (title, priority, dueDate, description, list) => {
-        const task = new Task(title, priority, dueDate, description, list);
-        // list.addTask(task);
+    const createTask = ({ title, priority, dueDate, description, listId }) => {
+        const task = new Task({
+            title,
+            priority,
+            dueDate,
+            description,
+            listId,
+        });
+        allLists[listId].addTask(task);
         return task;
     };
 

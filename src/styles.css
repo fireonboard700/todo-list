@@ -12,6 +12,7 @@ body {
 header {
     padding: 8px;
     background-color: rgb(232, 229, 229);
+    border-bottom: 2px solid rebeccapurple;
 }
 
 .overlay {
@@ -24,10 +25,6 @@ header {
     height: 100vh;
     justify-content: center;
     align-items: center;
-}
-
-.hidden {
-    display: none;
 }
 
 .modal {
@@ -68,6 +65,7 @@ label {
 
 .sidebar {
     background-color: rgb(232, 229, 229);
+    border-right: 2px solid rebeccapurple;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
@@ -124,6 +122,33 @@ label {
     margin-right: 8px;
 }
 
+.task-body {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.task-description {
+    flex: 1 1 auto;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    flex-wrap: wrap;
+}
+
+.edit-button {
+    align-self: flex-end;
+    height: 24px;
+    color: rgb(0, 0, 238);
+}
 .completed {
-    background-color: green;
+    background-color: rgb(165, 242, 165);
+}
+
+.strikethrough {
+    text-decoration: line-through;
+}
+
+.hidden {
+    display: none;
 }
