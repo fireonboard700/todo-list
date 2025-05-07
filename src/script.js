@@ -1,20 +1,23 @@
 import "./styles.css";
 import { Task, List, TaskManager } from "./task";
 
-const createBtn = document.querySelector("#create-btn");
+// ============= //
+// ============= //
+//   List Form   //
+// ============= //
+// ============= //
+
 const lists = document.querySelector(".lists");
-
-createBtn.addEventListener("click", () => {
-    const overlay = document.querySelector(".overlay");
-    overlay.classList.toggle("hidden");
-});
-
-const createListBtn = document.querySelector("#create-list-btn");
 const listForm = document.querySelector(".list-form");
 
-createListBtn.addEventListener("click", () => {
-    listForm.classList.toggle("hidden");
-});
+function createListElement(listName) {
+    const div = document.createElement("div");
+    div.classList.add("list", `${listName}`);
+    div.textContent = `${listName}`;
+
+    lists.appendChild(div);
+    listForm.reset();
+}
 
 listForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -23,15 +26,9 @@ listForm.addEventListener("submit", (e) => {
     console.log(data);
     const listName = data.get("listName");
     TaskManager.createList(listName);
+    console.log(TaskManager);
 
-    const div = document.createElement("div");
-    div.classList.add("list", `${listName}`);
-    div.textContent = `${listName}`;
-
-    lists.appendChild(div);
-
-    listForm.reset();
-    listForm.classList.toggle("hidden");
+    createListElement(listName);
 });
 
 // ============= //
@@ -112,6 +109,17 @@ taskForm.addEventListener("submit", (e) => {
     createtaskUI(task);
     overlay.classList.toggle("hidden");
     taskForm.reset();
+});
+
+// ============= //
+// ============= //
+//   Modal Logic //
+// ============= //
+// ============= //
+
+document.querySelector("#create-btn").addEventListener("click", () => {
+    const overlay = document.querySelector(".overlay");
+    overlay.classList.toggle("hidden");
 });
 
 overlay.addEventListener("click", () => {

@@ -12,16 +12,22 @@
         <div class="content">
             <div class="sidebar">
                 <button id="create-btn">+ Create</button>
-                <button id="create-list-btn">+ Add new list</button>
-                <form target="#" method="post" class="list-form hidden">
+                <form target="#" method="post" class="list-form">
+                    <button id="create-list-btn" type="submit">
+                        + Add new list
+                    </button>
                     <div class="form-input">
-                        <input type="text" id="listName" name="listName" />
+                        <input
+                            type="text"
+                            placeholder="Enter list name"
+                            id="listName"
+                            name="listName"
+                            required
+                        />
                     </div>
                 </form>
             </div>
-            <div class="lists">
-                <div class="default list">default</div>
-            </div>
+            <div class="lists"></div>
         </div>
         <div class="overlay hidden">
             <div class="modal">
@@ -32,7 +38,14 @@
                     </div>
                     <div class="form-input">
                         <label for="priority">priority</label>
-                        <input type="text" id="priority" name="priority" />
+                        <input
+                            type="number"
+                            placeholder="From 1 to 10"
+                            min="1"
+                            max="10"
+                            id="priority"
+                            name="priority"
+                        />
                     </div>
                     <div class="form-input">
                         <label for="dueDate">dueDate</label>
@@ -45,7 +58,7 @@
                     </div>
                     <div class="form-input">
                         <label for="list">list</label>
-                        <input type="text" id="list" name="list" />
+                        <input type="text" id="list" name="list" required />
                     </div>
                     <div class="form-input form-submit">
                         <button type="submit" id="submit">Create</button>

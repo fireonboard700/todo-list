@@ -47,7 +47,7 @@ const TaskManager = (function () {
         return list;
     };
 
-    return { createTask, setTaskProperty, createList };
+    return { allLists, createTask, setTaskProperty, createList };
 })();
 
 export { Task, List, TaskManager };

@@ -57,6 +57,7 @@ header {
 input,
 textarea {
     width: 200px;
+    padding: 8px;
     font: inherit;
 }
 
