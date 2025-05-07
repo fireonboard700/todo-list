@@ -59,6 +59,10 @@ select {
     font: inherit;
 }
 
+textarea {
+    resize: none;
+}
+
 label {
     padding-right: 8px;
 }
@@ -100,6 +104,12 @@ label {
     width: 400px;
     border: 2px solid rebeccapurple;
     background-color: rgb(232, 229, 229);
+}
+
+.list-head {
+    font-weight: bolder;
+    display: flex;
+    justify-content: space-between;
 }
 
 .task {

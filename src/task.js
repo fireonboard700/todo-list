@@ -51,7 +51,9 @@ const TaskManager = (function () {
         return list["id"];
     };
 
-    const deleteList = (list) => {};
+    const deleteList = (listId) => {
+        delete allLists[listId];
+    };
 
     const serialize = () => {
         return JSON.stringify(allLists);

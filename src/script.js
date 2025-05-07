@@ -27,9 +27,29 @@ if (cache) {
 
 function createListUI(listName, listId) {
     const div = document.createElement("div");
+    const listHead = document.createElement("div");
+    listHead.classList.add("list-head");
+
+    const listHeadLeft = document.createElement("div");
+    listHeadLeft.classList.add("list-head-left");
+    listHeadLeft.textContent = `${listName}`;
+
+    const deleteListBtn = document.createElement("button");
+    deleteListBtn.textContent = "Delete";
+    deleteListBtn.classList.add("edit-button");
+    deleteListBtn.addEventListener("click", () => {
+        TaskManager.deleteList(listId);
+        div.remove();
+        localStorage.setItem("cache", TaskManager.serialize());
+    });
+
+    listHead.append(listHeadLeft);
+    listHead.append(deleteListBtn);
+
     div.classList.add("list");
     div.id = `${listId}`;
-    div.textContent = `${listName}`;
+
+    div.appendChild(listHead);
 
     lists.appendChild(div);
     listForm.reset();
