@@ -36,12 +36,6 @@ function createListUI(listName, listId) {
     const deleteListBtn = document.createElement("button");
     deleteListBtn.textContent = "Delete";
     deleteListBtn.classList.add("edit-button");
-    deleteListBtn.addEventListener("click", () => {
-        TaskManager.deleteList(listId);
-        div.remove();
-        console.log(TaskManager.allLists);
-        localStorage.setItem("cache", TaskManager.serialize());
-    });
 
     listHead.append(listHeadLeft);
     listHead.append(deleteListBtn);
@@ -58,6 +52,13 @@ function createListUI(listName, listId) {
     const option = document.createElement("option");
     option.value = `${listId}`;
     option.textContent = listName;
+
+    deleteListBtn.addEventListener("click", () => {
+        TaskManager.deleteList(listId);
+        div.remove();
+        option.remove();
+        localStorage.setItem("cache", TaskManager.serialize());
+    });
 
     select.appendChild(option);
 }
