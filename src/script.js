@@ -1,6 +1,8 @@
 import "./styles.css";
 import { Task, List, TaskManager } from "./task";
 
+// TODO - fix bug with edit task.
+
 // ============= //
 // ============= //
 //   List Form   //
@@ -16,7 +18,7 @@ if (cache) {
     TaskManager.deserialize(cache);
     for (let list of Object.values(TaskManager.allLists)) {
         createListUI(list.name, list.id);
-        for (let task of Object.values(list.taskList)) {
+        for (let task of Object.values(list.tasks)) {
             createtaskUI(task);
         }
     }
@@ -37,6 +39,7 @@ function createListUI(listName, listId) {
     deleteListBtn.addEventListener("click", () => {
         TaskManager.deleteList(listId);
         div.remove();
+        console.log(TaskManager.allLists);
         localStorage.setItem("cache", TaskManager.serialize());
     });
 
@@ -215,17 +218,13 @@ taskForm.addEventListener("submit", (e) => {
         createtaskUI(task);
         overlay.classList.toggle("hidden");
     } else {
-        for (let key in taskData) {
-            taskToEdit[key] = taskData[key];
-        }
-        console.log(taskToEdit);
-        TaskManager.deleteTask(taskToEdit["id"]);
-        TaskManager.createTask(taskToEdit);
+        TaskManager.updateTask(taskToEdit, taskData);
         const containerToEdit = document.querySelector(`#${taskToEdit["id"]}`);
         updatetaskUI(containerToEdit, taskData);
         taskToEdit = null;
     }
 
+    console.log(TaskManager.allLists);
     localStorage.setItem("cache", TaskManager.serialize());
     taskForm.reset();
 });

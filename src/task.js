@@ -15,7 +15,7 @@ class List {
     constructor(name) {
         this.id = `uuid-${crypto.randomUUID()}`;
         this.name = name;
-        this.taskList = {};
+        this.tasks = {};
     }
 }
 
@@ -32,17 +32,20 @@ const TaskManager = (function () {
             listId,
         });
         console.log(allLists[listId]);
-        allLists[listId].taskList[task["id"]] = task;
+        allLists[listId].tasks[task["id"]] = task;
         return task;
     };
 
-    const setTaskProperty = (task, property, value) => {
-        task[`${property}`] = value;
+    const updateTask = (task, data) => {
+        deleteTask(task);
+        Object.assign(task, data);
+        const listId = task["listId"];
+        allLists[listId].tasks[task["id"]] = task;
     };
 
     const deleteTask = (task) => {
         const list = allLists[task.listId];
-        delete list.taskList[task.id];
+        delete list.tasks[task.id];
     };
 
     const createList = (listName) => {
@@ -67,7 +70,7 @@ const TaskManager = (function () {
         allLists,
         createTask,
         deleteTask,
-        setTaskProperty,
+        updateTask,
         createList,
         deleteList,
         serialize,
